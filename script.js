@@ -1,3 +1,5 @@
+//EJERCICIOS PARA PRACTICAR EN CLASE*******************
+
 /*Ejercicio 1
 
 let n1=prompt("Ingresa un numero");
@@ -16,7 +18,8 @@ let t2= "hola";
 if(t1==t2){
     alert("Hola! Cómo te puedo ayudar?")
 }
-*/
+
+
 //Ejercicio 3
 let num1=prompt("Ingresa un numero")
 if((num1>=10)&& (num1<=50)){
@@ -26,3 +29,70 @@ else{
     alert("Ingresa un numero entre el 10 y el 50")
 }
     
+*/
+
+//PRE-ENTREGA 1 SIMULADOR INTERACTIVO
+
+alert("Ingrese la opcion del producto que desea comprar, para salir ingrese 0")
+let tipoProducto = Number(prompt("1.VELAS LATA $200  2.VELAS ESPECIALES $350  3. PORTAVELAS $400"));
+let seleccionarCantidad;
+let total = 0;
+
+const cantidad = (cant, precio) => {
+    return cant * precio
+}
+
+
+while (tipoProducto != 0) {
+    switch (tipoProducto) {
+        case 1:
+            seleccionarCantidad = Number(prompt("el producto seleccionado es Vela en lata, indique la cantidad"))
+            total += cantidad(seleccionarCantidad, 200)
+            break;
+        case 2:
+            seleccionarCantidad = Number(prompt("el producto seleccionado es Vela Especial, indique la cantidad"))
+            total += cantidad(seleccionarCantidad, 350)
+            break;
+        case 3:
+            seleccionarCantidad = Number(prompt("el producto seleccionado son Portavelas, indique la cantidad"))
+            total += cantidad(seleccionarCantidad, 400)
+            break;
+
+        default:
+            break;
+
+    }
+
+    tipoProducto = Number(prompt("1-VELAS LATA $200 2- VELAS ESPECIALES $350 3. PORTAVELAS $400"));
+
+}
+
+alert("el total de la compra es de: " + total)
+
+
+const envio = () => {
+    if (total >= 600) {
+        alert("El envio es gratuito")
+    } else {
+        total += 150
+        alert("El costo del envio es de $150, el total es: " + total)
+    }
+}
+
+envio();
+
+// Pago con tarjeta es + 10% de comision del pago total
+
+const metodoDePago = () => {
+    let metodo = prompt("ingrese el metodo de pago, tarjeta o efectivo")
+    if (metodo == "tarjeta") {
+        total = (total / 10) + total
+        alert("el total es: " + total)
+    } else if (metodo == "efectivo") {
+        total -= 100
+        alert("tienes un descuento de $100, el total es: " + total)
+    }
+
+}
+
+metodoDePago();
