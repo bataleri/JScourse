@@ -1,77 +1,184 @@
+//*******************PRE-ENTREGA3***************/
+
+//variables
+let allContainerCart = document.querySelector('.products');
+let containerBuyCart = document.querySelector('.card-items');
+let priceTotal = document.querySelector('.price-total')
+let amountProduct = document.querySelector('.count-product');
+
+
+let buyThings = [];
+let totalCard = 0;
+let countProduct = 0;
+
+//functions
+loadEventListenrs();
+function loadEventListenrs(){
+    allContainerCart.addEventListener('click', addProduct);
+
+    containerBuyCart.addEventListener('click', deleteProduct);
+}
+
+function addProduct(e){
+    e.preventDefault();
+    if (e.target.classList.contains('btn-add-cart')) {
+        const selectProduct = e.target.parentElement; 
+        readTheContent(selectProduct);
+    }
+}
+
+function deleteProduct(e) {
+    if (e.target.classList.contains('delete-product')) {
+        const deleteId = e.target.getAttribute('data-id');
+
+        buyThings.forEach(value => {
+            if (value.id == deleteId) {
+                let priceReduce = parseFloat(value.price) * parseFloat(value.amount);
+                totalCard =  totalCard - priceReduce;
+                totalCard = totalCard.toFixed(2);
+            }
+        });
+        buyThings = buyThings.filter(product => product.id !== deleteId);
+        
+        countProduct--;
+    }
+}
+
+function readTheContent(product){
+    const infoProduct = {
+        image: product.querySelector('div img').src,
+        title: product.querySelector('.title').textContent,
+        price: product.querySelector('div p span').textContent,
+        id: product.querySelector('a').getAttribute('data-id'),
+        amount: 1
+    }
+
+    totalCard = parseFloat(totalCard) + parseFloat(infoProduct.price);
+    totalCard = totalCard.toFixed(2);
+
+    const exist = buyThings.some(product => product.id === infoProduct.id);
+    if (exist) {
+        const pro = buyThings.map(product => {
+            if (product.id === infoProduct.id) {
+                product.amount++;
+                return product;
+            } else {
+                return product
+            }
+        });
+        buyThings = [...pro];
+    } else {
+        buyThings = [...buyThings, infoProduct]
+        countProduct++;
+    }
+    loadHtml();
+    //console.log(infoProduct);
+}
+
+function loadHtml(){
+    clearHtml();
+    buyThings.forEach(product => {
+        const {image, title, price, amount, id} = product;
+        const row = document.createElement('div');
+        row.classList.add('item');
+        row.innerHTML = `
+            <img src="${image}" alt="">
+            <div class="item-content">
+                <h5>${title}</h5>
+                <h5 class="cart-price">${price}$</h5>
+                <h6>Amount: ${amount}</h6>
+            </div>
+            <span class="delete-product" data-id="${id}">X</span>
+        `;
+
+        containerBuyCart.appendChild(row);
+
+        priceTotal.innerHTML = totalCard;
+
+        amountProduct.innerHTML = countProduct;
+    });
+}
+ function clearHtml(){
+    containerBuyCart.innerHTML = '';
+ }
+
+
+
+
 //***********PRE-ENTREGA 2*************/
 
-alert("THE BLACK CANDLE COMPANY, WELCOME")
-const productos = [{
-        nombre: "velas en lata",
-        precio: 200
-    },
-    {
-        nombre: "velas especiales",
-        precio: 350
-    },
-    {
-        nombre: "portavelas",
-        precio: 400
-    },
-];
-let carrito = []
+// alert("THE BLACK CANDLE COMPANY, WELCOME")
+// const productos = [{
+//         nombre: "velas en lata",
+//         precio: 200
+//     },
+//     {
+//         nombre: "velas especiales",
+//         precio: 350
+//     },
+//     {
+//         nombre: "portavelas",
+//         precio: 400
+//     },
+// ];
+// let carrito = []
 
-let seleccion = prompt("Hola, desea comprar algun producto? Responda si o no")
+// let seleccion = prompt("Hola, desea comprar algun producto? Responda si o no")
 
-while (seleccion != "si" && seleccion != "no") {
-    alert("por favor ingresa SI o NO")
-    seleccion = prompt("Hola, desea comprar algun producto? Responda si o no")
-}
+// while (seleccion != "si" && seleccion != "no") {
+//     alert("por favor ingresa SI o NO")
+//     seleccion = prompt("Hola, desea comprar algun producto? Responda si o no")
+// }
 
-if (seleccion == "si") {
-    alert("A continuacion nuestra lista de productos")
-    let todoslosProductos = productos.map((producto) => producto.nombre + " " + "$" + producto.precio);
-    alert(todoslosProductos.join(" - "))
-} else if (seleccion == "no") {
-    alert("¡Gracias por pasarte por aqui, vuelve pronto!")
-}
+// if (seleccion == "si") {
+//     alert("A continuacion nuestra lista de productos")
+//     let todoslosProductos = productos.map((producto) => producto.nombre + " " + "$" + producto.precio);
+//     alert(todoslosProductos.join(" - "))
+// } else if (seleccion == "no") {
+//     alert("¡Gracias por pasarte por aqui, vuelve pronto!")
+// }
 
-while (seleccion != "no") {
-    let producto = prompt("agrega un producto a tu carrito")
-    let precio = 0
+// while (seleccion != "no") {
+//     let producto = prompt("agrega un producto a tu carrito")
+//     let precio = 0
 
-    if (producto == "velas en lata" || producto == "velas especiales" || producto == "portavelas") {
-        switch (producto) {
-            case "velas en lata":
-                precio = 200;
-                break;
-            case "velas especiales":
-                precio = 350;
-                break;
-            case "portavelas":
-                precio = 400;
-                break;
-        }
-        let unidades = parseInt(prompt("Cuantas unidades quiere llevar"))
-        carrito.push({
-            producto,
-            unidades,
-            precio
-        })
-        console.log(carrito)
-    } else {
-        alert("no tenemos ese producto")
-    }
+//     if (producto == "velas en lata" || producto == "velas especiales" || producto == "portavelas") {
+//         switch (producto) {
+//             case "velas en lata":
+//                 precio = 200;
+//                 break;
+//             case "velas especiales":
+//                 precio = 350;
+//                 break;
+//             case "portavelas":
+//                 precio = 400;
+//                 break;
+//         }
+//         let unidades = parseInt(prompt("Cuantas unidades quiere llevar"))
+//         carrito.push({
+//             producto,
+//             unidades,
+//             precio
+//         })
+//         console.log(carrito)
+//     } else {
+//         alert("no tenemos ese producto")
+//     }
 
-    seleccion = prompt("Desea seguir comprando?")
+//     seleccion = prompt("Desea seguir comprando?")
 
-    while (seleccion == "no") {
-        alert("Gracias por al compra! Hasta pronto")
-        carrito.forEach((carritoFinal) => {
-            console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades}, total a pagar por producto: ${carritoFinal.unidades * carritoFinal.precio}`)
-        })
-        break;
-    }
-}
+//     while (seleccion == "no") {
+//         alert("Gracias por al compra! Hasta pronto")
+//         carrito.forEach((carritoFinal) => {
+//             console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades}, total a pagar por producto: ${carritoFinal.unidades * carritoFinal.precio}`)
+//         })
+//         break;
+//     }
+// }
 
-// creamos un acumulador para sacar la cuenta total
-const totaldeCompra = carrito.reduce((acc, e) => acc + e.precio * e.unidades, 0);
-console.log(`El total a pagar por su compra es: ${totaldeCompra}`)
+// // creamos un acumulador para sacar la cuenta total
+// const totaldeCompra = carrito.reduce((acc, e) => acc + e.precio * e.unidades, 0);
+// console.log(`El total a pagar por su compra es: ${totaldeCompra}`)
 
 
 
